@@ -54,10 +54,10 @@
 </style>
 <body>
     <button id="bt1">深度优先遍历</button>
-    <button id="bt2">深度优先遍历</button>
+    <button id="bt2">广度优先遍历</button>
     <input type="text" id="ipt">
     <button id="bt3">深度优先检索</button>
-    <button id="bt4">深度优先检索</button>
+    <button id="bt4">广度优先检索</button>
     
     <div class="first">
         Super
@@ -118,18 +118,23 @@
     }
     bt3.onclick=function(){
         reset();
-        las(rootTree);
-        changeColor();
+        depth(rootTree);
+        changeColor("find");
+    }
+    bt4.onclick=function(){
+        reset();
+        scope(rootTree);
+        changeColor("find");
     }
     function reset(){
         list=[];
         for(var i=0;i<divlist.length;i++){
-            divlist[i].className=divlist[i].className.replace("select","");
+            divlist[i].className=divlist[i].className.replace("find","");
         }
     }
     //参考https://baidu-tookapill.github.io/Task-2-23/
     function scope(node){
-        if(node==null){
+        if(node){
           list.push(node);  
           scope(node.nextElementSibling);
           node=list[flag++];
@@ -144,14 +149,17 @@
             }
         }
     }
-    function changeColor(){
+    function changeColor(e){
         var i=0,tim;
         //用setInterval 生效
         var tim=setInterval(function(){
-            console.log(i);
-            if(i>list.length-1){clearInterval(tim);list[i-1].className+=" traverse";}
+            
+            if(i>list.length-1){clearInterval(tim);list[i-1].className=list[i-1].className.replace("traverse","");}
             if(list[i-1]){list[i-1].className=list[i-1].className.replace("traverse","");}
             list[i].className+=" traverse";
+            if (e=="find") {
+            	if (list[i].innerHTML==ipt.value) {clearInterval(tim);list[i].className=list[i].className.replace("traverse","find");}
+            }
             i++;
         },500);
       }  

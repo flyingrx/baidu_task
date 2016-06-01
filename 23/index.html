@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>23</title>
+</head>
+<style type="text/css">
+    div{
+        color: #000;
+        background-color: rgb(255, 255, 255);
+    }
+    .first{
+        margin: 10px;
+        padding: 20px;
+        display: flex;
+        flex-wrap:wrap; 
+        border:1px solid black;
+    }
+    .two{
+        margin: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid black;
+    }
+    .three{
+        margin: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid black;
+    }
+    .four{
+        margin: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid black;
+    }
+    .five{
+        margin: 10px;
+        width: 50px;
+        height: 100px;
+        border:1px solid black;
+    }
+    .traverse{
+        background-color: deeppink;
+        color: #fff;
+    } 
+    .find{
+        background-color: red;
+        color: #fff;
+    }
+</style>
+<body>
+    <button id="bt1">深度优先遍历</button>
+    <button id="bt2">深度优先遍历</button>
+    <input type="text" id="ipt">
+    <button id="bt3">深度优先检索</button>
+    <button id="bt4">深度优先检索</button>
+    
+    <div class="first">
+        Super
+        <div class="two">
+           Cat
+            <div class="three">
+                Apple
+                <div class="four">Pear</div>
+                <div class="four">Pig</div>
+                <div class="four">Cola</div>
+                <div class="four">Soccer</div>
+            </div>
+            <div class="three">
+                Phone
+            </div>
+            <div class="three">
+                <div class="four">Book</div>
+                <div class="four">School</div>
+            </div>
+        </div>
+        <div class="two">
+            Note
+            <div class="three">
+                Human
+                <div class="four">Code</div>
+                <div class="four">Operate</div>
+                <div class="four">Man</div>
+            </div>
+            <div class="three">
+                Program
+                <div class="four">
+                    Bement
+                    <div class="five">Cat</div>
+                </div>
+                <div class="four">Glass</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var divlist=document.getElementsByTagName("div");
+    var rootTree=document.getElementsByClassName("first")[0];
+    var list=[],flag=0;
+    var bt1=document.getElementById("bt1");
+    var bt2=document.getElementById("bt2");
+    var bt3=document.getElementById("bt3");
+    var bt4=document.getElementById("bt4");
+    var ipt=document.getElementById("ipt");
+    bt1.onclick=function(){
+        reset();
+        depth(rootTree);
+        changeColor();
+    }
+    bt2.onclick=function(){
+        reset();
+        scope(rootTree);
+        changeColor();
+    }
+    bt3.onclick=function(){
+        reset();
+        las(rootTree);
+        changeColor();
+    }
+    function reset(){
+        list=[];
+        for(var i=0;i<divlist.length;i++){
+            divlist[i].className=divlist[i].className.replace("select","");
+        }
+    }
+    //参考https://baidu-tookapill.github.io/Task-2-23/
+    function scope(node){
+        if(node==null){
+          list.push(node);  
+          scope(node.nextElementSibling);
+          node=list[flag++];
+          scope(node.firstElementChild);
+        }
+    }
+    function depth(node){
+        if(node){
+            list.push(node);
+            for(var i=0;i<node.children.length;i++){
+                depth(node.children[i]);
+            }
+        }
+    }
+    function changeColor(){
+        var i=0,tim;
+        //用setInterval 生效
+        var tim=setInterval(function(){
+            console.log(i);
+            if(i>list.length-1){clearInterval(tim);list[i-1].className+=" traverse";}
+            if(list[i-1]){list[i-1].className=list[i-1].className.replace("traverse","");}
+            list[i].className+=" traverse";
+            i++;
+        },500);
+      }  
+        //用setTimeout className同时加上select
+        // function def(){
+        //     if(i>14){clearTimeout(tim);return;}
+        //     divlist[i].className+=" "+"select";
+        //     i++;console.log(i);
+        //     tim= setTimeout(def(),1000);
+        // }
+        // def();    
+    
+   
+</script>
+</html>

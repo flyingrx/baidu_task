@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>twenty</title>
+	<style>
+		.tag{
+			margin-bottom: 10px;
+		}
+		#blue>li{
+			background-color: deepskyblue;
+			color: #fff;
+		}
+		button{
+			border-radius: 5px;
+		}
+		ul {
+			display: block;
+			list-style: none;
+			}
+		li{
+			display: inline-block;
+			margin-right:20px;
+			padding: 0 10px;
+			width: auto;
+			height: 20px;
+			color: #fff;
+		}
+		#list>li{
+			background-color: orange;			
+		}
+		.select{
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="tag">
+		Tag:<input type="text" id="first" onkeydown="generate(event)">
+		<ul id="blue"></ul>
+	</div>
+	
+	<div class="hoby">
+		<div class="main">
+			<textarea name="num" id="ipt" cols="30" rows="5"></textarea><br>
+			<button id="b1">确认兴趣爱好</button>
+		</div>
+		<div class="another">
+			<ul id="list">
+			</ul>
+		</div>
+	</div>
+<script type="text/javascript">
+var tag=[],all=[];
+window.onload=function(){
+	var b1=document.getElementById('b1');
+	var first=document.getElementById('first');
+	var list=document.getElementById("list");
+	var blue=document.getElementById("blue");
+	var ipt=document.getElementById("ipt");
+	
+	
+
+	b1.onclick=function(){
+		var str=ipt.value.toString();
+		var arr=str.split(/,|\s|、/);
+		all=arr.concat(all);
+		// all=all.map(function(e){return e.toString().trim();});
+		all=unique(all);
+		if(all.length>10){all=all.slice(-10);}
+		addAll(all,list);
+	}
+	
+}
+function unique(e){
+	return Array.from(new Set(e));
+}
+function addAll(a,b){
+	var html=a.reduce(function(pre,cur){
+		return cur==""? pre:pre+'<li>'+cur+'</li>';
+	},'');
+	b.innerHTML=html;
+}
+function generate(e){
+	var e=e||window.event; 
+	if(e.keyCode==13||e.keyCode==32||e.keyCode==188){
+		tag.push(first.value);
+		first.value="";
+		tag=unique(tag);
+		if(all.length>10){all=all.slice(-10);}
+		addAll(tag,blue);
+		var lis=document.getElementsByTagName("li");
+		// item=lis[i];
+		// var lis=document.getElementById("io");
+		for(var i=0;i<lis.length;i++){
+			// item=lis[i];
+			(function(_lis){
+				_lis.addEventListener("mouseover",function(){
+					var y=_lis.innerHTML;
+					_lis.innerHTML="点击删除"+y;
+					_lis.onmouseout=function(){_lis.innerHTML=y;}
+					_lis.onclick=function(){console.log(_lis);	;_lis.parentNode.removeChild(_lis);var index=tag.indexOf(y);tag.splice(index,1);}
+					// this.removeEventListener("mouseover",arguments.callee);
+				},false);
+				console.log(i);	
+			})(lis[i]);
+		}	
+			// lis[i].addEventListener("click",function(){
+			// 	this.innerHTML="点击删除"+this.innerHTML;
+			// 	this.removeEventListener("mouseover",arguments.callee);
+			// },false);
+		// }
+	
+	}
+}		
+</script>
+</body>
+</html>

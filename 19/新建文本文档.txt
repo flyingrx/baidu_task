@@ -1,0 +1,8 @@
+// function iptR(e){
+// 	if(e.value<10||e.value>100){
+// 		console.log("false");
+// 		e.returnValue=false;  阻止默认的dom行为
+// 	} 
+// }
+
+innerHtml不对，innerHTML才对。

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>22</title>
+</head>
+<style type="text/css">
+    div{
+        background-color: rgb(255, 255, 255);
+    }
+    div>div:nth-child(2n+1){
+        margin-right: 10px; 
+    }
+    div.select{
+       animation: me 1s;
+    }
+    .first{
+        padding: 20px;
+        width: 760px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid black;
+    }
+    .two{
+        padding: 20px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid red;
+    }
+    .three{
+        padding: 20px;
+        display: flex;
+        justify-content:space-between;
+        border:1px solid blue;
+    }
+    .four{
+        width: 50px;
+        height: 100px;
+        border:1px solid deeppink;
+    }
+    @keyframes me{
+    from{background-color:greenyellow;}
+    to{background-color:#fff;}
+    } 
+</style>
+<body>
+    <div class="first">
+        <div class="two">
+            <div class="three">
+                <div class="four"></div>
+                <div class="four"></div>
+            </div>
+            <div class="three">
+                <div class="four"></div>
+                <div class="four"></div>
+            </div>
+        </div>
+        <div class="two">
+            <div class="three">
+                <div class="four"></div>
+                <div class="four"></div>
+            </div>
+            <div class="three">
+                <div class="four"></div>
+                <div class="four"></div>
+            </div>
+        </div>
+    </div>
+    <button id="bt1">前序</button><button id="bt2">中序</button><button id="bt3">后序</button>
+</body>
+<script>
+    var divlist=document.getElementsByTagName("div");
+    var rootTree=document.getElementsByClassName("first")[0];
+    var list;
+    var bt1=document.getElementById("bt1");
+    var bt2=document.getElementById("bt2");
+    var bt3=document.getElementById("bt3");
+    bt1.onclick=function(){
+        reset();
+        pro(rootTree);
+        changeColor();
+    }
+    bt2.onclick=function(){
+        reset();
+        ino(rootTree);
+        changeColor();
+    }
+    bt3.onclick=function(){
+        reset();
+        las(rootTree);
+        changeColor();
+    }
+    function reset(){
+        list=[];
+        for(var i=0;i<divlist.length;i++){
+            divlist[i].className=divlist[i].className.replace("select","");
+        }
+    }
+    function pro(node){
+        if(!(node==null)){
+        list.push(node);
+        pro(node.firstElementChild);
+        pro(node.lastElementChild);
+        }
+    }
+    function ino(node){
+        if(node!==null){
+        ino(node.firstElementChild);
+        list.push(node);
+        ino(node.lastElementChild);
+        }
+    }
+    function las(node){
+        if(node!==null){
+        las(node.firstElementChild);
+        las(node.lastElementChild);
+        list.push(node);
+        }
+    }
+    function changeColor(){
+        var i=0,tim;
+        //用setInterval 生效
+        var tim=setInterval(function(){
+            console.log(i);
+            if(i>13){clearInterval(tim);}
+            list[i].className+=" "+"select";
+            i++;
+        },500);
+      }  
+        //用setTimeout className同时加上select
+        // function def(){
+        //     if(i>14){clearTimeout(tim);return;}
+        //     divlist[i].className+=" "+"select";
+        //     i++;console.log(i);
+        //     tim= setTimeout(def(),1000);
+        // }
+        // def();    
+    
+   
+</script>
+</html>

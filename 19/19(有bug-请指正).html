@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.main{
+			margin: 0 auto;
+			text-align: center;
+		}
+		.another{
+			margin: 30px auto;
+			text-align: center;
+		}
+		button{
+			border-radius: 5px;
+		}
+		ul {
+			display: block;
+			list-style: none;
+			}
+		li{	
+			vertical-align: baseline;
+			float: left;
+			display: inline-block;
+			margin: 0 20px;
+			padding: 0 10px;
+			width: auto;
+			color: #fff;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<input type="text" id="ipt" placeholder="请输入10-100的数字">
+		<button id="b1">左侧入</button>
+		<button id="b2">右侧入</button>
+		<button id="b3">左侧出</button>
+		<button id="b4">右侧出</button>
+	</div>
+	<div class="another">
+		<ul id="list">
+			
+		</ul>
+	</div>
+<script type="text/javascript">
+var b1=document.getElementById('b1');
+var b2=document.getElementById('b2');
+var b3=document.getElementById('b3');
+var b4=document.getElementById('b4');
+var list=document.getElementById("list");
+var ipt=document.getElementById("ipt");
+var theArray=[];
+
+window.onload=function(){
+b1.onclick=function(){
+	if(!(ipt.value>=10&&ipt.value<=100)){return;}
+	if (list.childNodes.length>59) {alert("不能添加更多");return;}
+	theArray.unshift(ipt.value);
+	sort();
+}
+b2.onclick=function(){
+	if(!(ipt.value>=10&&ipt.value<=100)){return;}
+	if (list.childNodes.length>59) {alert("不能添加更多");return;}
+	theArray.push(ipt.value);
+	sort();
+}
+b3.onclick=function(){
+	list.removeChild(list.childNodes[0]);
+}
+b4.onclick=function(){
+	list.removeChild(list.lastChild);
+}
+
+}
+
+function sort(){
+	theArray.sort(numSort);
+	console.log(theArray);
+	var addAll=theArray.reduce(function(pre,cur,index,arr){
+		return pre+"<li style='height:"+cur+"px'>"+cur+"</li>";
+	},"");
+	list.innerHTML=addAll;
+	console.log(list.innerHtml);
+}
+function numSort(a,b){
+	return a-b;
+}
+</script>
+</body>
+</html>

@@ -6,42 +6,32 @@
 </head>
 <style type="text/css">
     div{
+        margin: 10px;
+        padding: 20px;
         color: #000;
         background-color: rgb(255, 255, 255);
+        border:1px solid black;
     }
     .first{
-        margin: 10px;
-        padding: 20px;
         display: flex;
         flex-wrap:wrap; 
-        border:1px solid black;
     }
     .two{
-        margin: 10px;
-        padding: 20px;
         display: flex;
         justify-content:space-between;
-        border:1px solid black;
     }
     .three{
-        margin: 10px;
-        padding: 20px;
         display: flex;
         justify-content:space-between;
-        border:1px solid black;
     }
     .four{
-        margin: 10px;
-        padding: 20px;
         display: flex;
         justify-content:space-between;
-        border:1px solid black;
     }
     .five{
         margin: 10px;
         width: 50px;
         height: 100px;
-        border:1px solid black;
     }
     .traverse{
         background-color: deeppink;
@@ -58,7 +48,9 @@
     <input type="text" id="ipt">
     <button id="bt3">深度优先检索</button>
     <button id="bt4">广度优先检索</button>
-    
+    <button id="bt5">删除</button>
+    <input type="text" id="add_ipt">
+    <button id="bt6">添加</button>
     <div class="first">
         Super
         <div class="two">
@@ -100,12 +92,14 @@
 <script>
     var divlist=document.getElementsByTagName("div");
     var rootTree=document.getElementsByClassName("first")[0];
-    var list=[],flag=0;
+    var list=[],flag=0,del;
     var bt1=document.getElementById("bt1");
     var bt2=document.getElementById("bt2");
     var bt3=document.getElementById("bt3");
     var bt4=document.getElementById("bt4");
-    var ipt=document.getElementById("ipt");
+    var bt5=document.getElementById("bt5");
+    var bt6=document.getElementById("bt6");
+    var add_ipt=document.getElementById("add_ipt");
     bt1.onclick=function(){
         reset();
         depth(rootTree);
@@ -126,6 +120,27 @@
         scope(rootTree);
         changeColor("find");
     }
+    bt5.onclick=function(){
+        if(del){del.parentNode.removeChild(del);}
+    }
+    bt6.onclick=function(){
+        if(del){
+            var newe=document.createElement("div");
+            newe.innerText=add_ipt.value;
+            del.appendChild(newe);
+        }
+    }
+    
+    rootTree.addEventListener("click",function(e){
+        if(document.getElementsByClassName("find")[0]){
+            var fd=document.getElementsByClassName("find")[0];
+            fd.className=fd.className.replace(" find","");
+        }
+        del=e.target;
+        del.className+=" find";
+        e.stopPropagation();
+    },false);
+    
     function reset(){
         list=[];
         for(var i=0;i<divlist.length;i++){
@@ -153,8 +168,6 @@
         var i=0,tim;
         //用setInterval 生效
         var tim=setInterval(function(){
-            
-            
             if(list[i-1]){list[i-1].className=list[i-1].className.replace("traverse","");}
             if(list[i]){list[i].className+=" traverse";}
             if (e=="find") {
